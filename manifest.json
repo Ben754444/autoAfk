@@ -1,6 +1,6 @@
 {
   "name": "AFK",
-  "description": "afk shit",
+  "description": "automatically change your presence and add emoji/text to your custom status when you go afk/come back",
   "author": "Ben.#1171",
   "version": "0.0.1",
   "license": "MIT"
