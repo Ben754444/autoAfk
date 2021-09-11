@@ -20,7 +20,7 @@ module.exports = class Settings extends React.Component {
                     value={getSetting('afkEmoji', null)}
                     onChange={val => updateSetting('afkEmoji', val)}
                 >
-                    AFK Custom Status - Emoji ID
+                    AFK Custom Status - Emoji
                 </TextInput>
 
                 <TextInput
@@ -47,7 +47,7 @@ module.exports = class Settings extends React.Component {
                     value={getSetting('normalEmoji', null)}
                     onChange={val => updateSetting('normalEmoji', val)}
                 >
-                    Normal Custom Status - Emoji ID
+                    Normal Custom Status - Emoji
                 </TextInput>
 
                 <TextInput

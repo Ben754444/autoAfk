@@ -57,7 +57,7 @@ module.exports = class AFK extends Plugin {
                           settings.updateRemoteSettings({
                               status : userSettings.get('afkStatus', 'idle'),
                               customStatus: {
-                                  emojiId: userSettings.get('afkEmoji'),
+                                  emojiName: userSettings.get('afkEmoji'),
                                   //emojiId: '490774631284867073',
                                   text: userSettings.get('afkText')
                               }
@@ -79,7 +79,7 @@ module.exports = class AFK extends Plugin {
                           if(userSettings.get('normalEmoji', null) !== null || userSettings.get('normalText', null) !== null){
                               settings.updateRemoteSettings({
                                   customStatus : {
-                                      emojiId: userSettings.get('normalEmoji'), //emojiName
+                                      emojiName: userSettings.get('normalEmoji'), //emojiName
                                       text: userSettings.get('normalText')
                                   },
                                   status: userSettings.get('normalStatus', 'online')
@@ -128,10 +128,11 @@ module.exports = class AFK extends Plugin {
             }
         }
         if(["on", "enable", "true"].includes(args[0].toLowerCase())){
+            if(!userSettings.get('normalEmoji') && !userSettings.get('normalText')) return {send: false, result: "AFK has been enabled (no body)"}
             settings.updateRemoteSettings({
                 status : userSettings.get('afkStatus', 'idle'),
                 customStatus: {
-                    emojiId: userSettings.get('afkEmoji'),
+                    emojiName: userSettings.get('afkEmoji'),
                     text: userSettings.get('afkText')
                 }
             });
@@ -140,25 +141,37 @@ module.exports = class AFK extends Plugin {
                 result: "AFK has been enbaled"
             }
         } else if(["off", "disable", "false"].includes(args[0].toLowerCase())){
+            //if(!userSettings.get('normalEmoji') && !userSettings.get('normalText')) return {send: false, result: "AFK has been disabled (no body)"}
+            if(userSettings.get('normalEmoji', null) !== null || userSettings.get('normalText', null) !== null){
+                settings.updateRemoteSettings({
+                    customStatus : {
+                        emojiName: userSettings.get('normalEmoji'), //emojiName
+                        text: userSettings.get('normalText')
+                    },
+                    status: userSettings.get('normalStatus', 'online')
+                });
+            } else {
+                settings.updateRemoteSettings({
+                    customStatus: {},
+                    status: userSettings.get('normalStatus', 'online')
+                });
+
+            }
+            /*
             settings.updateRemoteSettings({
                 customStatus : {
-                    emojiId: userSettings.get('normalEmoji'),
+                    emojiName: userSettings.get('normalEmoji'),
                     text: userSettings.get('normalText')
                 },
                 status: userSettings.get('normalStatus', 'online')
             });
+
+             */
             return {
                 send: false,
                 result: "AFK has been disabled"
             }
-        } else {
-            return{
-                send: false,
-                result: "Argument Option must be either on or off!"
-            }
-        }
-
-         if(args[0] === "detectionToggle") {
+        } else if(args[0] === "detectionToggle") {
             enableDetection = !enableDetection;
             return{
                 send: false,
@@ -199,7 +212,7 @@ module.exports = class AFK extends Plugin {
             settings.updateRemoteSettings({
                 status : userSettings.get('afkStatus', 'idle'),
                 customStatus: {
-                    emojiId: userSettings.get('afkEmoji'),
+                    emojiName: userSettings.get('afkEmoji'),
                     text: userSettings.get('afkText')
                 }
             });
@@ -216,7 +229,7 @@ module.exports = class AFK extends Plugin {
                     if(userSettings.get('normalEmoji', null) !== null || userSettings.get('normalText', null) !== null){
                         settings.updateRemoteSettings({
                             customStatus : {
-                                emojiId: userSettings.get('normalEmoji'), //emojiName
+                                emojiName: userSettings.get('normalEmoji'), //emojiName
                                 text: userSettings.get('normalText')
                             },
                             status: userSettings.get('normalStatus', 'online')
